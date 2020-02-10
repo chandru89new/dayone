@@ -17,10 +17,7 @@ export const actions = {
 
 const initState = {
   tasks: JSON.parse(localStorage.getItem(storageKey) || "[]"),
-  projects: JSON.parse(localStorage.getItem(projectsKey)) || [
-    "misc",
-    "algoshelf"
-  ],
+  projects: JSON.parse(localStorage.getItem(projectsKey)) || ["misc"],
   currentProject:
     JSON.parse(localStorage.getItem(currentProjectKey)) ||
     defaultCurrentProjectName
