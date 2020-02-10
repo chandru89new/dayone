@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import { useParams } from "react-router-dom";
 import "./style.sass";
@@ -23,7 +23,7 @@ function Progress(props) {
   const progress = () => {
     const total = projFilter(props.tasks.all).length;
     const done = projFilter(props.tasks.done).length;
-    const p = (done * 100) / total;
+    const p = !total ? 0 : (done * 100) / total;
     return {
       style: {
         width: p + "%"

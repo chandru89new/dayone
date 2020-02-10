@@ -5,6 +5,7 @@ import TaskList from "./comps/tasklist";
 import AddTask from "./comps/addtask";
 import Redirector from "./comps/redirector";
 import Progress from "./comps/progress";
+import Footer from "./comps/footer";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
@@ -26,6 +27,7 @@ function App() {
               <Header />
               <Progress />
               <TaskList />
+              <Footer />
             </Route>
             <Route exact path="/:project">
               <Header />

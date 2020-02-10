@@ -10,7 +10,8 @@ export const actions = {
   toggleTask: "TOGGLE_TASK",
   deleteTask: "DELETE_TASK",
   changeProject: "CHANGE_PROJECT",
-  addProject: "ADD_PROJECT"
+  addProject: "ADD_PROJECT",
+  purgeTasks: "PURGE_TASKS"
 };
 
 const initState = {
@@ -59,6 +60,17 @@ export const store = (state = initState, action) => {
       newState = {
         ...state,
         projects: state.projects.concat(action.payload.project)
+      };
+      break;
+    case actions.purgeTasks:
+      if (!action.payload.project) break;
+      newState = {
+        ...state,
+        tasks: state.tasks.filter(t => {
+          if (t.project === action.payload.project && t.status === "done")
+            return false;
+          else return true;
+        })
       };
       break;
     default:

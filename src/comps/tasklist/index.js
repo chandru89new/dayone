@@ -49,7 +49,7 @@ function TaskList(props) {
       );
     })
   ) : (
-    <div>No tasks{type ? " " + type : ""}.</div>
+    <div style={{ marginTop: "2em" }}>No tasks.</div>
   );
 }
 
