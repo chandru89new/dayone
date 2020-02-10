@@ -9,6 +9,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
 import { store as todos } from "./store/todos";
+import RawForms from "./comps/rawforms";
 const store = createStore(todos);
 
 function App() {
@@ -17,6 +18,10 @@ function App() {
       <Router>
         <div className="app">
           <Switch>
+            <Route exact path="/raw">
+              {process.env.NODE_ENV === "development" && <RawForms />}
+              {process.env.NODE_ENV !== "development" && <Redirector />}
+            </Route>
             <Route exact path="/:project/:type">
               <Header />
               <Progress />
