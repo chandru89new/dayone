@@ -1,37 +1,33 @@
 import React from "react";
 import "./style.sass";
-import { NavLink as Link } from "react-router-dom";
+import { withRouter, NavLink as Link, useParams } from "react-router-dom";
 import { connect } from "react-redux";
-import { actions } from "../../store/todos";
 
 const mapState = state => {
-  const filterCurrentProject = task => task.project === state.currentProject;
-  const filterStatus = status => task => task.status === status;
-  const filterTodo = filterStatus("pending");
-  const filterDone = filterStatus("done");
-  const todo = state.tasks.filter(filterCurrentProject).filter(filterTodo);
-  const done = state.tasks.filter(filterCurrentProject).filter(filterDone);
+  const filterByStatus = status => tasks =>
+    tasks.filter(t => t.status === status);
   return {
-    todo: todo.length,
-    done: done.length,
-    all: state.tasks.filter(filterCurrentProject).length,
-    currentProject: state.currentProject,
-    projects: state.projects
+    projects: state.projects,
+    tasks: {
+      todo: filterByStatus("pending")(state.tasks),
+      done: filterByStatus("done")(state.tasks),
+      all: state.tasks
+    }
   };
 };
 
 const defaultLinks = [
-  { id: "todo", link: "/", text: "Todo" },
-  { id: "done", link: "/done", text: "Done" },
-  { id: "all", link: "/all", text: "All" }
+  { id: "todo", link: "", text: "Todo" },
+  { id: "done", link: "done", text: "Done" },
+  { id: "all", link: "all", text: "All" }
 ];
 
 function Header(props) {
+  let { project } = useParams();
+  const filterByProject = project => tasks =>
+    tasks.filter(t => t.project === project);
   const changeProject = e => {
-    props.dispatch({
-      type: actions.changeProject,
-      payload: { project: e.target.value }
-    });
+    props.history.push(`/${e.target.value}`);
   };
 
   return (
@@ -46,16 +42,17 @@ function Header(props) {
                 className="nav-link"
                 exact
                 activeClassName="active"
-                to={link.link}
+                to={`/${project}/${link.link}`}
               >
-                {link.text} ({props[link.id]})
+                {link.text} (
+                {filterByProject(project)(props.tasks[link.id]).length})
               </Link>
             );
           })}
         </div>
         <div>
           Project:{" "}
-          <select onChange={changeProject} defaultValue={props.currentProject}>
+          <select onChange={changeProject} defaultValue={project}>
             {props.projects.map(project => {
               return (
                 <option key={project} value={project}>
@@ -70,4 +67,4 @@ function Header(props) {
   );
 }
 
-export default connect(mapState)(Header);
+export default connect(mapState)(withRouter(Header));

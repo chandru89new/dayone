@@ -6,11 +6,14 @@ import { actions } from "../../store/todos";
 import { connect } from "react-redux";
 
 const mapStateToProps = state => ({
-  tasks: state.tasks.filter(t => t.project === state.currentProject)
+  tasks: state.tasks
 });
 
 function TaskList(props) {
-  let { type } = useParams();
+  let { project, type } = useParams();
+
+  const filterTasksByProject = project => tasks =>
+    tasks.filter(t => t.project === project);
   const filterTasksByType = type => tasks => {
     if (!type) return tasks.filter(({ status }) => status === "pending");
     if (type === "done") return tasks.filter(({ status }) => status === "done");
@@ -29,8 +32,11 @@ function TaskList(props) {
       payload: { id: taskId }
     });
   };
-  return filterTasksByType(type)(props.tasks).length ? (
-    filterTasksByType(type)(props.tasks).map(task => {
+
+  const projectTasks = filterTasksByProject(project);
+
+  return filterTasksByType(type)(projectTasks(props.tasks)).length ? (
+    filterTasksByType(type)(projectTasks(props.tasks)).map(task => {
       return (
         <Task
           key={task.id}

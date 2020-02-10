@@ -1,7 +1,5 @@
 const storageKey = "tasks";
 const projectsKey = "projects";
-const currentProjectKey = "current_project";
-const defaultCurrentProjectName = "misc";
 
 const saveToDB = key => obj => {
   return localStorage.setItem(key, JSON.stringify(obj));
@@ -17,10 +15,7 @@ export const actions = {
 
 const initState = {
   tasks: JSON.parse(localStorage.getItem(storageKey) || "[]"),
-  projects: JSON.parse(localStorage.getItem(projectsKey)) || ["misc"],
-  currentProject:
-    JSON.parse(localStorage.getItem(currentProjectKey)) ||
-    defaultCurrentProjectName
+  projects: JSON.parse(localStorage.getItem(projectsKey)) || ["misc"]
 };
 
 export const store = (state = initState, action) => {
@@ -59,26 +54,17 @@ export const store = (state = initState, action) => {
         tasks: state.tasks.filter(t => t.id !== action.payload.id)
       };
       break;
-    case actions.changeProject:
-      if (!action.payload.project) break;
-      newState = {
-        ...state,
-        currentProject: action.payload.project
-      };
-      break;
     case actions.addProject:
       if (!action.payload.project) break;
       newState = {
         ...state,
-        projects: state.projects.concat(action.payload.project),
-        currentProject: action.payload.project
+        projects: state.projects.concat(action.payload.project)
       };
       break;
     default:
       break;
   }
   saveToDB(storageKey)(newState.tasks);
-  saveToDB(currentProjectKey)(newState.currentProject);
   saveToDB(projectsKey)(newState.projects);
   return newState;
 };

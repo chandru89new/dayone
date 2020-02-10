@@ -3,7 +3,7 @@ import "./App.sass";
 import Header from "./comps/header";
 import TaskList from "./comps/tasklist";
 import AddTask from "./comps/addtask";
-// import Purge from "./comps/purge";
+import Redirector from "./comps/redirector";
 import Progress from "./comps/progress";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Provider } from "react-redux";
@@ -16,19 +16,22 @@ function App() {
     <Provider store={store}>
       <Router>
         <div className="app">
-          <Header />
-          <Progress />
-          <div>
-            <Switch>
-              <Route exact path="/:type">
-                <TaskList />
-              </Route>
-              <Route exact path="/">
-                <TaskList />
-                <AddTask />
-              </Route>
-            </Switch>
-          </div>
+          <Switch>
+            <Route exact path="/:project/:type">
+              <Header />
+              <Progress />
+              <TaskList />
+            </Route>
+            <Route exact path="/:project">
+              <Header />
+              <Progress />
+              <TaskList />
+              <AddTask />
+            </Route>
+            <Route exact path="/">
+              <Redirector />
+            </Route>
+          </Switch>
         </div>
       </Router>
     </Provider>

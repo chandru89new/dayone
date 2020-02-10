@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 import "./style.sass";
 
 const mapStore = store => {
@@ -30,4 +31,4 @@ function Progress(props) {
   );
 }
 
-export default connect(mapStore)(Progress);
+export default connect(mapStore)(withRouter(Progress));
