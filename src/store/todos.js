@@ -30,7 +30,7 @@ export const store = (state = initState, action) => {
           name: action.payload.task,
           status: "pending",
           time: new Date(),
-          project: state.currentProject
+          project: action.payload.project
         })
       };
       break;

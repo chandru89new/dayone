@@ -3,8 +3,10 @@ import useKeyListener from "./usekeylistener";
 import "./style.sass";
 import { connect } from "react-redux";
 import { actions } from "../../store/todos";
+import { useParams } from "react-router-dom";
 
 function AddTask(props) {
+  let { project } = useParams();
   const { mode, toggleMode } = useKeyListener();
   const [task, setTask] = useState("");
 
@@ -20,7 +22,7 @@ function AddTask(props) {
     if (key === 13) {
       props.dispatch({
         type: actions.addTask,
-        payload: { task: e.target.value }
+        payload: { task: e.target.value, project }
       });
       toggleMode("edit");
       setTask("");
