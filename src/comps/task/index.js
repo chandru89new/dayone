@@ -10,8 +10,10 @@ function Task({
   name,
   status,
   time,
+  priority,
   toggleStatus = defaultFunction,
-  deleteTask = defaultFunction
+  deleteTask = defaultFunction,
+  togglePriority = defaultFunction
 }) {
   const [editMode, setEditMode] = useState(false);
   const taskId = `task-${id}`;
@@ -33,6 +35,12 @@ function Task({
     const c = window.confirm("Cant be undone. You sure?");
     if (!c) return;
     else deleteTask({ taskId: id });
+  };
+
+  const priorityToggle = () => {
+    return togglePriority({
+      taskId: id
+    });
   };
   return (
     <>
@@ -59,6 +67,12 @@ function Task({
           </span> */}
           <div>
             <small>{formatTime(time)}</small>
+            <span>
+              &nbsp; &bull; &nbsp;
+              <small className="priority-link" onClick={priorityToggle}>
+                {priority ? "de-prior" : "prioritize"}
+              </small>
+            </span>
             &nbsp; &bull; &nbsp;
             <small className="del-link" onClick={doDeleteTask}>
               del

@@ -11,7 +11,8 @@ export const actions = {
   deleteTask: "DELETE_TASK",
   changeProject: "CHANGE_PROJECT",
   addProject: "ADD_PROJECT",
-  purgeTasks: "PURGE_TASKS"
+  purgeTasks: "PURGE_TASKS",
+  togglePriority: "TOGGLE_PRIORITY"
 };
 
 const initState = {
@@ -31,7 +32,8 @@ export const store = (state = initState, action) => {
           name: action.payload.task,
           status: "pending",
           time: new Date(),
-          project: action.payload.project
+          project: action.payload.project,
+          priority: false
         })
       };
       break;
@@ -70,6 +72,22 @@ export const store = (state = initState, action) => {
           if (t.project === action.payload.project && t.status === "done")
             return false;
           else return true;
+        })
+      };
+      break;
+    case actions.togglePriority:
+      if (!action.payload.id || !action.payload.project) break;
+      newState = {
+        ...state,
+        tasks: state.tasks.map(t => {
+          if (
+            t.project === action.payload.project &&
+            t.id === action.payload.id
+          ) {
+            return { ...t, priority: !t.priority };
+          } else {
+            return t;
+          }
         })
       };
       break;
