@@ -36,16 +36,19 @@ function TaskList(props) {
   const projectTasks = filterTasksByProject(project);
 
   return filterTasksByType(type)(projectTasks(props.tasks)).length ? (
-    filterTasksByType(type)(projectTasks(props.tasks)).map(task => {
+    filterTasksByType(type)(projectTasks(props.tasks)).map((task, idx) => {
       return (
-        <Task
-          key={task.id}
-          id={task.id}
-          status={task.status}
-          name={task.name}
-          toggleStatus={toggleStatus}
-          deleteTask={deleteTask}
-        />
+        <div>
+          <Task
+            key={task.id}
+            id={task.id}
+            status={task.status}
+            name={task.name}
+            toggleStatus={toggleStatus}
+            deleteTask={deleteTask}
+          />
+          {(idx + 1) % 3 === 0 && <div className="spacer" />}
+        </div>
       );
     })
   ) : (
