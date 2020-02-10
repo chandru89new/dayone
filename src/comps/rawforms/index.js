@@ -27,7 +27,9 @@ function RawForms() {
       <div>
         <select defaultValue={data} onChange={changeData}>
           {keys.map(key => (
-            <option value={key}>{key}</option>
+            <option key={key} value={key}>
+              {key}
+            </option>
           ))}
         </select>
       </div>

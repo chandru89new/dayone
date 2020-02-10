@@ -27,6 +27,7 @@ function App() {
               <Header />
               <Progress />
               <TaskList />
+              <AddTask />
               <Footer />
             </Route>
             <Route exact path="/:project">
