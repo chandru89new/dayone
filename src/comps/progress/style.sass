@@ -2,7 +2,7 @@
   margin: 0.5em 0
   border: 1px dotted rgba(skyblue, 1)
   border-radius: 100px
-  overflow: hidden
+  // overflow: hidden
   min-height: 0.5em
   max-height: 0.5em
   position: relative
@@ -14,6 +14,21 @@
     bottom: 0
     background: skyblue
     font-size: 0.8em
+    .overlay-text
+      position: absolute
+      right: -4px
+      top: -10px
+      height: 24px
+      width: 24px
+      display: flex
+      justify-content: center
+      align-items: center
+      border-radius: 50px
+      background: skyblue
+      color: white
+      font-size: 0.8em
+      padding: 0.2em
+      box-shadow: 0 0 5px rgba(black,0.1)
   span
     display: inline-block
   span + span

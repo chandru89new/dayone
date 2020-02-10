@@ -1,34 +1,43 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import "./style.sass";
 
 const mapStore = store => {
   const done = store.tasks.filter(t => t.status === "done");
-  if (!done || !done.length)
-    return {
-      total: store.tasks.length,
-      done: done.length,
-      progress: 0
-    };
   return {
-    total: store.tasks.length,
-    done: done.length,
-    progress: (done.length * 100) / store.tasks.length
+    tasks: {
+      all: store.tasks,
+      done: done
+    }
   };
 };
 
+const filterByProject = project => tasks =>
+  tasks.filter(t => t.project === project);
+
 function Progress(props) {
-  const computedStyle = () => {
+  let { project } = useParams();
+  const projFilter = filterByProject(project);
+
+  const progress = () => {
+    const total = projFilter(props.tasks.all).length;
+    const done = projFilter(props.tasks.done).length;
+    const p = (done * 100) / total;
     return {
-      width: props.progress + "%"
+      style: {
+        width: p + "%"
+      },
+      value: parseInt(p)
     };
   };
   return (
     <div className="progress">
-      <div className="overlay" style={computedStyle()}></div>
+      <div className="overlay" style={progress().style}>
+        <span className="overlay-text">{progress().value + "%"}</span>
+      </div>
     </div>
   );
 }
 
-export default connect(mapStore)(withRouter(Progress));
+export default connect(mapStore)(Progress);

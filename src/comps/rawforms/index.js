@@ -7,6 +7,7 @@ const beautify = string => JSON.stringify(string, null, 2);
 const pipe = (...fns) => arg => fns.reduce((val, currFn) => currFn(val), arg);
 
 function RawForms() {
+  const keys = Object.keys(localStorage);
   const [data, setData] = useState({ key: "tasks" });
   const [contents, setContents] = useState({ data: "" });
   const changeContent = e => setContents({ data: e.target.value });
@@ -25,8 +26,9 @@ function RawForms() {
     <div className="raw-container">
       <div>
         <select defaultValue={data} onChange={changeData}>
-          <option value="tasks">tasks</option>
-          <option value="projects">projects</option>
+          {keys.map(key => (
+            <option value={key}>{key}</option>
+          ))}
         </select>
       </div>
       <div>
