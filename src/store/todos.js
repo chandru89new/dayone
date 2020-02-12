@@ -5,6 +5,9 @@ const saveToDB = key => obj => {
   return localStorage.setItem(key, JSON.stringify(obj));
 };
 
+const countPriorityTasks = project => tasks =>
+  tasks.filter(t => t.project === project && t.priority).length;
+
 export const actions = {
   addTask: "ADD_TASK",
   toggleTask: "TOGGLE_TASK",
@@ -41,11 +44,17 @@ export const store = (state = initState, action) => {
       if (!action.payload.id) break;
       const toggleStatus = status =>
         status === "pending" ? "done" : "pending";
+      const setPriority = (initPriority, status) =>
+        toggleStatus(status) === "done" ? false : initPriority;
       newState = {
         ...state,
         tasks: state.tasks.map(t =>
           t.id === action.payload.id
-            ? { ...t, status: toggleStatus(t.status) }
+            ? {
+                ...t,
+                priority: setPriority(t.priority, t.status),
+                status: toggleStatus(t.status)
+              }
             : t
         )
       };
@@ -77,6 +86,15 @@ export const store = (state = initState, action) => {
       break;
     case actions.togglePriority:
       if (!action.payload.id || !action.payload.project) break;
+      const allowPrioritizingTask =
+        countPriorityTasks(action.payload.project)(state.tasks) < 3
+          ? true
+          : false;
+      const togglePriority = initPriority => {
+        if (initPriority) return !initPriority;
+        else if (allowPrioritizingTask) return !initPriority;
+        else return initPriority;
+      };
       newState = {
         ...state,
         tasks: state.tasks.map(t => {
@@ -84,7 +102,10 @@ export const store = (state = initState, action) => {
             t.project === action.payload.project &&
             t.id === action.payload.id
           ) {
-            return { ...t, priority: !t.priority };
+            return {
+              ...t,
+              priority: togglePriority(t.priority)
+            };
           } else {
             return t;
           }
