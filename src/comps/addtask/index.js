@@ -32,16 +32,15 @@ function AddTask(props) {
   };
 
   return (
-    <div className="add-task-container">
+    <span className="add-task-container">
       {mode === "view" ? (
-        <div className="help-text">
-          Ctrl+Space to{" "}
+        <span className="help-text">
           <a onClick={() => toggleMode("view")} href="#">
-            add a new task
+            Add Task (Ctrl+Space)
           </a>
-        </div>
+        </span>
       ) : (
-        <div className="add-task-form">
+        <span className="add-task-form">
           <input
             id="task-input"
             type="text"
@@ -49,9 +48,9 @@ function AddTask(props) {
             onKeyUp={handleTaskInput}
             defaultValue={task}
           />
-        </div>
+        </span>
       )}
-    </div>
+    </span>
   );
 }
 

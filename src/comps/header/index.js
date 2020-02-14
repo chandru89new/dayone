@@ -2,6 +2,7 @@ import React from "react";
 import "./style.sass";
 import { withRouter, NavLink as Link, useParams } from "react-router-dom";
 import { connect } from "react-redux";
+import Logo from "../logo";
 
 const mapState = state => {
   const filterByStatus = status => tasks =>
@@ -32,7 +33,7 @@ function Header(props) {
 
   return (
     <div className="header">
-      <div className="logo">dayone</div>
+      <Logo />
       <div className="wrapper">
         <div className="nav-container">
           {defaultLinks.map(link => {

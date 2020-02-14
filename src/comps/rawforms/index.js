@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./style.sass";
+import Logo from "../logo";
 
 const getData = key => JSON.parse(localStorage.getItem(key));
 const setD = key => content => localStorage.setItem(key, content);
@@ -24,6 +25,7 @@ function RawForms() {
 
   return (
     <div className="raw-container">
+      <Logo />
       <div>
         <select defaultValue={data} onChange={changeData}>
           {keys.map(key => (
