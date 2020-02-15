@@ -36,6 +36,13 @@ function TaskList(props) {
     });
   };
 
+  const addTask = taskName => {
+    props.dispatch({
+      type: actions.addTask,
+      payload: { task: taskName, project: project }
+    });
+  };
+
   const projectTasks = filterTasksByProject(project);
 
   const togglePriority = ({ taskId }) => {
@@ -84,12 +91,27 @@ function TaskList(props) {
       })}
       {!props.hideAdd && (
         <div style={{ marginTop: "1em" }}>
-          <AddResource name="task" placeholder="Type task name and hit Enter" />
+          <AddResource
+            name="task"
+            placeholder="Type task name and hit Enter"
+            callback={addTask}
+          />
         </div>
       )}
     </>
   ) : (
-    <div style={{ marginTop: "2em" }}>No tasks.</div>
+    <>
+      <div style={{ marginTop: "2em" }}>No tasks.</div>
+      {!props.hideAdd && (
+        <div style={{ marginTop: "1em" }}>
+          <AddResource
+            name="task"
+            placeholder="Type task name and hit Enter"
+            callback={addTask}
+          />
+        </div>
+      )}
+    </>
   );
 }
 
