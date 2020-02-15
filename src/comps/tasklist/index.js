@@ -65,6 +65,7 @@ function TaskList(props) {
               id={task.id}
               status={task.status}
               name={task.name}
+              time={new Date(task.time)}
               priority={task.priority || false}
               toggleStatus={toggleStatus}
               deleteTask={deleteTask}
@@ -81,6 +82,7 @@ function TaskList(props) {
               id={task.id}
               status={task.status}
               name={task.name}
+              time={new Date(task.time)}
               priority={task.priority || false}
               toggleStatus={toggleStatus}
               deleteTask={deleteTask}
