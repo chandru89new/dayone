@@ -1,6 +1,7 @@
 import React from "react";
 import Task from "../task/";
 import { useParams } from "react-router-dom";
+import AddResource from "../addresource";
 import "./style.sass";
 import { actions } from "../../store/todos";
 import { connect } from "react-redux";
@@ -81,6 +82,11 @@ function TaskList(props) {
           </div>
         );
       })}
+      {!props.hideAdd && (
+        <div style={{ marginTop: "1em" }}>
+          <AddResource name="task" placeholder="Type task name and hit Enter" />
+        </div>
+      )}
     </>
   ) : (
     <div style={{ marginTop: "2em" }}>No tasks.</div>

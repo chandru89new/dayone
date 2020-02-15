@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { actions } from "../../store/todos";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import "./style.sass";
 import { connect } from "react-redux";
-import AddTask from "../addtask";
 import clipb from "clipboard";
 
 function Footer(props) {
@@ -28,29 +27,28 @@ function Footer(props) {
       props.tasks
     )}\n\nprojects:\n${JSON.stringify(props.projects)}`;
     setExportData(data);
-  });
+  }, [props.tasks, props.projects]);
 
   return (
     <>
       <div className="footer">
-        <div>
-          <AddTask />
-        </div>
-        <div>
-          <a href="#" id="export-btn" data-clipboard-text={exportData}>
-            Export
-          </a>
-        </div>
-        {props.showPurgeLink && (
+        <div className="footer-links">
           <div>
-            <a
-              style={{ cursor: "pointer", color: "red" }}
-              onClick={confirmPurge}
-            >
-              Purge Done
+            <a href="#" id="export-btn" data-clipboard-text={exportData}>
+              Export
             </a>
           </div>
-        )}
+          {props.showPurgeLink && (
+            <div>
+              <a
+                style={{ cursor: "pointer", color: "red" }}
+                onClick={confirmPurge}
+              >
+                Purge Done
+              </a>
+            </div>
+          )}
+        </div>
       </div>
     </>
   );

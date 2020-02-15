@@ -13,9 +13,11 @@ export const actions = {
   toggleTask: "TOGGLE_TASK",
   deleteTask: "DELETE_TASK",
   changeProject: "CHANGE_PROJECT",
-  addProject: "ADD_PROJECT",
   purgeTasks: "PURGE_TASKS",
-  togglePriority: "TOGGLE_PRIORITY"
+  togglePriority: "TOGGLE_PRIORITY",
+  addProject: "ADD_PROJECT",
+  deleteProject: "DELETE_PROJECT",
+  editProjectName: "EDIT_PROJECT_NAME"
 };
 
 const initState = {
@@ -110,6 +112,14 @@ export const store = (state = initState, action) => {
             return t;
           }
         })
+      };
+      break;
+    case actions.deleteProject:
+      if (!action.payload.project) break;
+      newState = {
+        ...state,
+        projects: state.projects.filter(p => p !== action.payload.project),
+        tasks: state.tasks.filter(t => t.project !== action.payload.project)
       };
       break;
     default:

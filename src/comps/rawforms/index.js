@@ -16,6 +16,9 @@ function RawForms() {
 
   const saveContent = () => {
     setD(data.key)(contents.data);
+    setTimeout(() => {
+      window.location.reload();
+    }, 0);
   };
 
   useEffect(() => {

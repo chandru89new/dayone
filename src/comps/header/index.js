@@ -2,7 +2,6 @@ import React from "react";
 import "./style.sass";
 import { withRouter, NavLink as Link, useParams } from "react-router-dom";
 import { connect } from "react-redux";
-import Logo from "../logo";
 
 const mapState = state => {
   const filterByStatus = status => tasks =>
@@ -32,39 +31,39 @@ function Header(props) {
   };
 
   return (
-    <div className="header">
-      <Logo />
-      <div className="wrapper">
-        <div className="nav-container">
-          {defaultLinks.map(link => {
+    <>
+      <div className="nav-container">
+        {defaultLinks.map(link => {
+          return (
+            <Link
+              key={link.link}
+              className="nav-link"
+              exact
+              activeClassName="active"
+              to={`/${project}/${link.link}`}
+            >
+              {link.text} (
+              {filterByProject(project)(props.tasks[link.id]).length})
+            </Link>
+          );
+        })}
+      </div>
+      <div>
+        <Link to="/projects" href="#" style={{ marginLeft: "0.5em" }}>
+          Projects
+        </Link>
+        &nbsp;&nbsp;
+        <select onChange={changeProject} defaultValue={project}>
+          {props.projects.map(project => {
             return (
-              <Link
-                key={link.link}
-                className="nav-link"
-                exact
-                activeClassName="active"
-                to={`/${project}/${link.link}`}
-              >
-                {link.text} (
-                {filterByProject(project)(props.tasks[link.id]).length})
-              </Link>
+              <option key={project} value={project}>
+                {project}
+              </option>
             );
           })}
-        </div>
-        <div>
-          Project:{" "}
-          <select onChange={changeProject} defaultValue={project}>
-            {props.projects.map(project => {
-              return (
-                <option key={project} value={project}>
-                  {project}
-                </option>
-              );
-            })}
-          </select>
-        </div>
+        </select>
       </div>
-    </div>
+    </>
   );
 }
 
