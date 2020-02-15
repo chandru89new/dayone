@@ -28,7 +28,7 @@ function Footer(props) {
       props.tasks
     )}\n\nprojects:\n${JSON.stringify(props.projects)}`;
     setExportData(data);
-  }, []);
+  });
 
   return (
     <>

@@ -10,7 +10,6 @@ import { Provider } from "react-redux";
 import { createStore } from "redux";
 import { store as todos } from "./store/todos";
 import RawForms from "./comps/rawforms";
-import Exporter from "./comps/export";
 const store = createStore(todos);
 
 function App() {
